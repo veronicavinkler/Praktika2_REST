@@ -1,29 +1,16 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const app = express()
-const db = require('./queries')
-const port = 3000
 
-app.use(bodyParser.json())
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-)
+require("dotenv").config();
+const app = require("./app");
+const port = process.env.PORT || 3000;
 
-app.get('/', (request, response) => {
-  response.json({ info: 'Node.js, Express, and Postgres API' })
-})
+console.log("Starting server...");
+console.log("App imported successfully:", app);
 
-app.get('/film', db.getFilm)
-app.get('/film/:id', db.getFilmById)
-app.get('/actor', db.getActor)
-app.get('/actor/:id', db.getActorById)
-app.get('/category', db.getCategory)
-app.get('/category/:id', db.getCategoryById)
-app.get('/language/:id', db.getLanguage)
-app.get('/language/:id', db.getLanguageById)
-
+// Veahaldus serveri käivitamisel
 app.listen(port, () => {
-  console.log(`App running on port ${port}.`)
-})
+    console.log(`Server running on port ${port}`);
+}).on("error", (err) => {
+    console.error("Server startup error:", err.message);
+    process.exit(1);
+});
+
